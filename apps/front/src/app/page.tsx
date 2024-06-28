@@ -4,7 +4,7 @@ import {
   isDayOff,
   numberOfEmptyDays,
 } from "@/server/utils";
-import { DayOff } from "@/server/types";
+import { Day, DayOff } from "@/server/types";
 import CalendarGrid from "@/components/calendar-grid";
 
 export default async function Home() {
@@ -23,7 +23,7 @@ export default async function Home() {
     () => 0,
   );
 
-  const days = Array.from({ length: daysInCurrentMonth }, (_, i) => {
+  const days: Day[] = Array.from({ length: daysInCurrentMonth }, (_, i) => {
     return {
       day: i + 1,
       isWeekend: isDateWeekend(i + 1, currentMonth - 1, currentYear),
