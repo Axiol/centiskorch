@@ -12,13 +12,10 @@ export const isDateWeekend = (day: number, month: number, year: number) => {
 export const isDayOff = (date: Date, daysOff: DayOff[]) => {
   return daysOff.some((dayOff) => {
     const startDate = new Date(dayOff.startDate);
-    const endDate = new Date(dayOff.endDate);
-    console.log(
-      date.getDate(),
-      startDate.getDate(),
-      endDate.getDate(),
-      date.getDate() === startDate.getDate(),
-    );
     return date.getDate() === startDate.getDate();
   });
+};
+
+export const numberOfEmptyDays = (firstDayOfTheMonth: Date) => {
+  return firstDayOfTheMonth.getDay() - 1;
 };

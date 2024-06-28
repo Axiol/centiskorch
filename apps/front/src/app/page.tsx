@@ -1,4 +1,9 @@
-import { daysInMonth, isDateWeekend, isDayOff } from "@/server/utils";
+import {
+  daysInMonth,
+  isDateWeekend,
+  isDayOff,
+  numberOfEmptyDays,
+} from "@/server/utils";
 import { DayOff } from "@/server/types";
 
 export default async function Home() {
@@ -12,8 +17,10 @@ export default async function Home() {
   ).then((response) => {
     return response.json();
   });
-
-  // console.log(nationalDaysOff);
+  const emptyDays = Array.from(
+    { length: numberOfEmptyDays(new Date(currentYear, currentMonth - 1, 1)) },
+    () => 0,
+  );
 
   const days = Array.from({ length: daysInCurrentMonth }, (_, i) => {
     return {
@@ -28,12 +35,18 @@ export default async function Home() {
 
   return (
     <>
-      {days.map((day, index) => (
-        <p key={index}>
-          {day.day}, {day.isWeekend ? "weekend" : "weekday"},{" "}
-          {day.isDayOff ? "day off" : "work day"}
-        </p>
-      ))}
+      <div className={"grid grid-cols-7"}>
+        {emptyDays.map((_, index) => {
+          return <div key={`empty${index}`}>0</div>;
+        })}
+
+        {days.map((day, index) => (
+          <div key={index}>
+            {day.day}, {day.isWeekend ? "weekend" : "weekday"},{" "}
+            {day.isDayOff ? "day off" : "work day"}
+          </div>
+        ))}
+      </div>
     </>
   );
 }
